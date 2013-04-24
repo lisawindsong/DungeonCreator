@@ -183,17 +183,18 @@ def fill_a_room(empty_room):
 
 class Room:
     #room_type: room, hall, stairs? grand hall? chamber?
-    room_type = 0
-    feat_type = 0
-    x_coordinate = 0
-    y_coordinate = 0
-    x_size = 0
-    y_size = 0
-    num_of_doors = 0
-    doors = []
-    doors_finished = False
-    my_coordinates = []
-    room_is_legal = 1
+    def __init__(self):
+        self.room_type = 0
+        self.feat_type = 0
+        self.x_coordinate = 0
+        self.y_coordinate = 0
+        self.x_size = 0
+        self.y_size = 0
+        self.num_of_doors = 0
+        self.doors = []
+        self.doors_finished = False
+        self.my_coordinates = []
+        self.room_is_legal = 1
 
     def get_my_coordinates_list(self):
         for width in range(0, self.x_size):
@@ -256,15 +257,16 @@ class Room:
         
 class Feature:
     #feat_type: door, trap, treasure
-    my_room = 0
-    room_type = 0
-    feat_type = 0
-    x_coordinate = 0
-    y_coordinate = 0
-    x_size = 1
-    y_size = 1
-    direction = "north" #exits are north,south,and dennis
-    door_is_legal = 1
+    def __init__(self):
+        self.my_room = 0
+        self.room_type = 0
+        self.feat_type = 0
+        self.x_coordinate = 0
+        self.y_coordinate = 0
+        self.x_size = 1
+        self.y_size = 1
+        self.direction = "north" #exits are north,south,and dennis
+        self.door_is_legal = 1
 
     def set_size(self, x, y):
         self.x_size = x
@@ -422,12 +424,11 @@ for this_door in entry.doors:
     print "there are", len(temp_room.doors), "doors in this room"
     
 
-for each_room in dungeon:
-    if each_room.room_type == "room":
-        print "these are my coordinates:"
-        print each_room.my_coordinates
-        print "those were my coordinates"
-            
+#for each_room in dungeon:
+#    if each_room.room_type == "room":
+#        print "these are my coordinates:"
+#        print each_room.my_coordinates
+#        print "those were my coordinates"            
 
 #======================================================================
 #------------------------       Main loop       -----------------------
