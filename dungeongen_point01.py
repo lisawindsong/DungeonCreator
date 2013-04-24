@@ -1,21 +1,23 @@
 #Dungeon Generator v0.01
 # Chris Pack
 #=====================================================
+import Tkinter
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
-rooms_to_add = 10
+rooms_to_add = 25
 #current_room = 0
 
 def find_a_room(dungeon_list):
     for room in dungeon_list:
         if room.room_type == "room":
             if room.doors_finished == False:
-                print "room ", room, " needs connected doors"
+                #print "room ", room, " needs connected doors"
                 room.doors_finished = True
                 return True, room
             else:
-                print "room ", room, " is done."
+                pass
+                #print "room ", room, " is done."
     print "No unfinished rooms in dungeon"
     return False, room
             
@@ -24,16 +26,16 @@ def fill_a_room(empty_room):
     random_number = 3#guaranteed by fair die roll to be random    #   number of doors to add
     roomx,roomy = empty_room.get_coordinates()
     roomwide,roomtall = empty_room.get_size()
-    print "number of doors in empty room:", len(empty_room.doors)
-    print "empty room is", empty_room
-    print "number of doors it thinks it has:", empty_room.num_of_doors
+    #print "number of doors in empty room:", len(empty_room.doors)
+    #print "empty room is", empty_room
+    #print "number of doors it thinks it has:", empty_room.num_of_doors
     
     #two parts:
     #part 1: insert number of doors into room
     #
     #for (counter = 0 counter < random_number counter++)
     for doors_to_add in range (0, random_number):
-        print "door creation iteration ", doors_to_add
+        #print "door creation iteration ", doors_to_add
         tempdoorin = Feature()
         tempdoorout = Feature()
         templocx = 1
@@ -116,10 +118,11 @@ def fill_a_room(empty_room):
             #print "end of doors loop, restarting"
             #
         if sidestried >3:#  sidestried==4
-            print "tried all the times and couldn't place another door"
+            pass
+            #print "tried all the times and couldn't place another door"
             #return
     #
-    print "doors added to current room", empty_room.num_of_doors
+    #print "doors added to current room", empty_room.num_of_doors
     #part 2: insert room on the end of each door
     #
     if empty_room.num_of_doors == 0:
@@ -127,14 +130,14 @@ def fill_a_room(empty_room):
         
     #for this_door in range (0, empty_room.num_of_doors):
     for this_door in empty_room.doors:
-        print "room creation iteration", len(empty_room.doors)
+        #print "room creation iteration", len(empty_room.doors)
         temp_room = Room()
         temp_loc_x = 0
         temp_loc_y = 0
         #create random size
         #actually make these random later
-        temp_size_x = 10
-        temp_size_y = 10
+        temp_size_x = 30
+        temp_size_y = 30
         temp_type = "room"
         temp_door_facing = this_door.get_direction()
         
@@ -172,13 +175,14 @@ def fill_a_room(empty_room):
         #====================================================================
         if temp_room.room_is_legal == 1:
             temp_room.add_room()#win            
-            print "this room is legal"
+            #print "this room is legal"
             #stilltrying = False
         else:
-            print "this room overlaps another"
+            pass
+            #print "this room overlaps another"
             #sidestried +=1
         temp_room.room_is_legal = 1
-        print "added or did not add room"
+        #print "added or did not add room"
         #===========================================================
 
 class Room:
@@ -248,12 +252,12 @@ class Room:
         
     def add_room(self):
         dungeon.append(self)
-        print len(dungeon)
+        #print len(dungeon)
         global rooms_in_dungeon
         rooms_in_dungeon += 1
         self.get_my_coordinates_list()
         #print "added a room to the dungeon."
-        print "current number of rooms in dungeon: " , rooms_in_dungeon
+        #print "current number of rooms in dungeon: " , rooms_in_dungeon
         
 class Feature:
     #feat_type: door, trap, treasure
@@ -326,7 +330,7 @@ class Feature:
 #-----          main program start
 #------------------------------
 entry = Room()
-entry.set_coordinates(20, 20)
+entry.set_coordinates(300, 200)
 entry.set_size(10,20)
 entry.set_type("room")
 entry.add_room() # is this silly?
@@ -335,22 +339,22 @@ entry.doors_finished = True
 door1_1 = Feature()
 door1_1.feat_type = "door"
 door1_1.set_direction("east")
-door1_1.set_coordinates(29,30)
+door1_1.set_coordinates(310,210)
 
 door1_2 = Feature()
 door1_2.feat_type = "door"
 door1_2.set_direction("south")
-door1_2.set_coordinates(25,39)
+door1_2.set_coordinates(305,220)
 
 door1_3 = Feature()
 door1_3.feat_type = "door"
 door1_3.set_direction("west")
-door1_3.set_coordinates(20,30)
+door1_3.set_coordinates(300,210)
 
 door1_4 = Feature()
 door1_4.feat_type = "door"
 door1_4.set_direction("north")
-door1_4.set_coordinates(25,20)
+door1_4.set_coordinates(305,200)
 
 entry.add_door(door1_1)
 entry.add_door(door1_2)
@@ -361,22 +365,22 @@ entry.add_door(door1_4)
 door2_1 = Feature()
 door2_1.feat_type = "door"
 door2_1.set_direction("west")
-door2_1.set_coordinates(30,30)
+door2_1.set_coordinates(311,210)
 
 door2_2 = Feature()
 door2_2.feat_type = "door"
 door2_2.set_direction("north")
-door2_2.set_coordinates(25,40)
+door2_2.set_coordinates(305,221)
 
 door2_3 = Feature()
 door2_3.feat_type = "door"
 door2_3.set_direction("east")
-door2_3.set_coordinates(19,30)
+door2_3.set_coordinates(299,210)
 
 door2_4 = Feature()
 door2_4.feat_type = "door"
 door2_4.set_direction("south")
-door2_4.set_coordinates(25,19)
+door2_4.set_coordinates(305,199)
 #entry.get_my_coordinates_list()  added to add_room
 #print entry.my_coordinates
 dungeon.append(door2_1)
@@ -390,8 +394,8 @@ for this_door in entry.doors:
     temp_loc_y = 0
     #create random size
     #actually make these random later
-    temp_size_x = 10
-    temp_size_y = 10
+    temp_size_x = 20
+    temp_size_y = 20
     temp_type = "room"
     temp_door_facing = this_door.get_direction()
     
@@ -418,10 +422,10 @@ for this_door in entry.doors:
     temp_room.set_coordinates(temp_loc_x,temp_loc_y)
     temp_room.set_size(temp_size_x,temp_size_y)
 
-    print temp_room.get_coordinates()
+    #print temp_room.get_coordinates()
     temp_room.room_type = temp_type
     temp_room.add_room()
-    print "there are", len(temp_room.doors), "doors in this room"
+    #print "there are", len(temp_room.doors), "doors in this room"
     
 
 #for each_room in dungeon:
@@ -434,13 +438,6 @@ for this_door in entry.doors:
 #------------------------       Main loop       -----------------------
 #======================================================================
 while rooms_in_dungeon < rooms_to_add:
-    #global current_room #FIXME make sure this doesn't mask anything
-    #temp_room = Room()
-    #make new random room size
-    #room coordinates will be based off of corresponding door
-    #temp_room.set_coordinates(10,10)
-    #temp_room.set_size(10,10)
-    #temp_room.set_type("room")
     ohdeargod = True
 
 #I need the "look through teh whole dungeon array and see if any object is in this location" function
@@ -451,34 +448,40 @@ while rooms_in_dungeon < rooms_to_add:
         break#this shouldn't happen, and right now if it happens I'm screwed
 
     #current_room should now be set to the first room without any doors
-    #==========================
-    #----  THIS IS WHERE I AM: working on filling a given room with doors and more rooms?
-    #==========================
-    fill_a_room(current_room)
-    
-    #check that this room does not overlap any other rooms
-    #for each_room in dungeon:
-    #    if each_room.room_type == "room":
-    #        for room_coordinates in range (0, len(each_room.my_coordinates)):
-    #            if temp_room.are_you_in_this_square(each_room.my_coordinates[room_coordinates]):
-    #                temp_room.room_is_legal = 0
-    #                #here I downgrade the room type and try another
-    #if temp_room.room_is_legal == 1:
-    #    print "this room is legal"
-    #else:
-    #    print "this room overlaps another"
-    #temp_room.add_room()
-    #end if
-    #current_room = temp_room#the room is legal and added to teh list
 
+    fill_a_room(current_room)
     
 print "end of dungeon building loop, max rooms reached" #done with the whole thing.
     #unhandled case: dungeon didn't build enough   rooms to hit cap?  what then?
 #if (find_a_room(first_room) == True):
     #print "#fill this room with doors and rooms"
 #else:
-    #"#(next)"
+    #"#(next)"    
+#=======================================================================
+#------------------------       Display loop    ------------------------
+#=======================================================================
 
+top = Tkinter.Tk()
+tehcanvas = Tkinter.Canvas(top, bg="gray30", height = 800, width = 900)
+for each_room in dungeon:
+    if each_room.room_type == "room":
+        point1x,point1y = each_room.get_coordinates()
+        sizex,sizey = each_room.get_size()
+        point2x = point1x + sizex
+        point2y = point1y + sizey
+        tehcanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="gray50", outline="black")
+for each_door in dungeon:
+    if each_door.feat_type == "door":
+        #print "door", each_room
+        #print each_room.get_coordinates()
+        point1x = 0
+        point1y = 0
+        point1x,point1y = each_door.get_coordinates()
+        point2x = point1x + 4
+        point2y = point1y + 4
+        tehcanvas.create_rectangle(point1x-2, point1y-2, point2x-2, point2y-2, fill="brown")
+tehcanvas.pack()
+top.mainloop()
 #import tkinter
 #main window
 #canvas
