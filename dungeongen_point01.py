@@ -40,7 +40,6 @@ def draw_door(acanvas,adoor):
         print "You cannot face Dennis!"
     
     acanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="brown")
-    
 
 
 def find_a_room(dungeon_list):
@@ -268,11 +267,11 @@ class Room:
     def are_you_in_this_square(self, (x, y)):
         tempxsize = self.x_size
         tempxstart = self.x_coordinate
-        tempxfinish = tempxstart + tempxsize
+        tempxfinish = tempxstart + tempxsize -1
         
         tempysize = self.y_size
         tempystart = self.y_coordinate
-        tempyfinish = tempystart + tempysize
+        tempyfinish = tempystart + tempysize -1
         
         if (((x >= tempxstart) and (x <= tempxfinish)) and ((y>= tempystart) and (y<= tempyfinish))):
             #print "in the room's range"
@@ -478,7 +477,7 @@ def make_a_dungeon(rooms, rating, dungeon):
 #======================================================================
 #------------------------       Main loop       -----------------------
 #======================================================================
-    while rooms_in_dungeon < rooms_to_add:#rooms_to_add:#rooms:
+    while rooms_in_dungeon < rooms:#rooms_to_add:#rooms:
         ohdeargod = True
     
     #I need the "look through teh whole dungeon array and see if any object is in this location" function
@@ -506,13 +505,18 @@ def make_a_dungeon(rooms, rating, dungeon):
 #------------------------       Display loop    ------------------------
 #=======================================================================
 def generatedungeon(rooms, cr):
-    make_a_dungeon(rooms, cr, dungeon)
+    global rooms_in_dungeon
+    global dungeon
+    rooms_in_dungeon = 0
+    dungeon = []
+    make_a_dungeon(int(rooms), int(cr), dungeon)
     for all in dungeon:
         print all
     draw_everything(tehcanvas, dungeon)
     
 
 def draw_everything(acanvas,adungeon):
+    acanvas.delete('all')
     for each_room in adungeon:
         if each_room.room_type == "room":
             point1x,point1y = each_room.get_coordinates()
@@ -571,10 +575,10 @@ class levelselect:
         buttoncancel.pack(padx = 5, side = LEFT)
 
     def ok(self):
+        crlevel = self.level.get()
+        numrooms = self.totalrooms.get()
         self.top.destroy()
-        crlevel = self.level.getint
-        numrooms = self.totalrooms.getint
-        self.command(crlevel,numrooms)
+        self.command(numrooms, crlevel)
     def cancel(self):
         self.top.destroy()
 
@@ -607,7 +611,7 @@ mapscrollx.pack(side = BOTTOM, fill = X)
 mapscrolly = Scrollbar(top, orient = VERTICAL)
 mapscrolly.pack(side = RIGHT, fill = Y)
 #leftframe = Tkinter.Frame(top)
-tehcanvas = Canvas(top, bg="gray30", height = 800, width = 900, xscrollcommand = mapscrollx.set, yscrollcommand = mapscrolly.set, scrollregion = (-1000,-1000,2000,2000))
+tehcanvas = Canvas(top, bg="gray30", height = 800, width = 800, xscrollcommand = mapscrollx.set, yscrollcommand = mapscrolly.set, scrollregion = (-2000,-2000,3000,3000))
 mapscrollx.config(command = tehcanvas.xview)
 mapscrolly.config(command = tehcanvas.yview)
 draw_everything(tehcanvas,dungeon)
