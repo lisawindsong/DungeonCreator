@@ -1,11 +1,11 @@
-#Dungeon Generator v0.01
+#Dungeon Generator v0.02
 # Chris Pack
 #=====================================================
 from Tkinter import *
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
-rooms_to_add = 25
+#rooms_to_add = 25
 pixels_per_square = 48
 #current_room = 0
 
@@ -178,7 +178,6 @@ def fill_a_room(empty_room):
         if temp_door_facing == "north":
             temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
             temp_loc_y = this_door.y_coordinate - temp_size_y
-            #temp_loc_y = temp_loc_y
         
         if temp_door_facing == "south":
             temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
@@ -192,7 +191,6 @@ def fill_a_room(empty_room):
         
         if temp_door_facing == "west":
             temp_loc_x = this_door.x_coordinate - temp_size_x
-            #temp_loc_x = temp_loc_x - 1
             temp_loc_y = this_door.y_coordinate - (temp_size_y/2)
         
         #new room location x and Y now determined, now look for conflicts.
@@ -445,7 +443,6 @@ def make_a_dungeon(rooms, rating, dungeon):
         if temp_door_facing == "north":
             temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
             temp_loc_y = this_door.y_coordinate - temp_size_y
-            #temp_loc_y = temp_loc_y
             
         if temp_door_facing == "south":
             temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
@@ -459,7 +456,6 @@ def make_a_dungeon(rooms, rating, dungeon):
             
         if temp_door_facing == "west":
             temp_loc_x = this_door.x_coordinate - temp_size_x
-            #temp_loc_x = temp_loc_x
             temp_loc_y = this_door.y_coordinate - (temp_size_y/2)
     
         temp_room.set_coordinates(temp_loc_x,temp_loc_y)
@@ -500,7 +496,6 @@ def make_a_dungeon(rooms, rating, dungeon):
     
     return dungeon
 
-
 #=======================================================================
 #------------------------       Display loop    ------------------------
 #=======================================================================
@@ -510,11 +505,10 @@ def generatedungeon(rooms, cr):
     rooms_in_dungeon = 0
     dungeon = []
     make_a_dungeon(int(rooms), int(cr), dungeon)
-    for all in dungeon:
-        print all
+    #for all in dungeon:
+    #    print all
     draw_everything(tehcanvas, dungeon)
     
-
 def draw_everything(acanvas,adungeon):
     acanvas.delete('all')
     for each_room in adungeon:
@@ -537,11 +531,11 @@ def draw_everything(acanvas,adungeon):
             #print "door", each_room
             #print each_room.get_coordinates()s
     #--------------------------------------------------------------------------------------------------------
-    for counterx in range(1,19):
-        acanvas.create_line(counterx * pixels_per_square,0, counterx * pixels_per_square, 800)
+    for counterx in range(-48,63):
+        acanvas.create_line(counterx * pixels_per_square,-2000, counterx * pixels_per_square, 3000)
     
-    for countery in range(1,17):
-        acanvas.create_line(0,countery * pixels_per_square, 900, countery * pixels_per_square)
+    for countery in range(-48,63):
+        acanvas.create_line(-2000,countery * pixels_per_square, 3000, countery * pixels_per_square)
 
 class levelselect:
     def __init__(self, parent, command):
@@ -564,7 +558,7 @@ class levelselect:
         
         roomslabel = Label(frame2, text = "Number of Rooms")
         roomslabel.pack(side = LEFT)
-        self.totalrooms = Spinbox(frame2, from_=1, to=200,width = 10)
+        self.totalrooms = Scale(frame2, orient = HORIZONTAL, from_=5, to=100)
         self.totalrooms.pack(side = LEFT)
         #-----------------------------------------------
         frame3 = Frame(top)
@@ -605,7 +599,6 @@ settingsbox = levelselect(top, generatedungeon)
 generatebutton = Button(tehframe, text="Generate", command = settingsbox.prompt)
 generatebutton.pack(side = TOP)
 
-
 mapscrollx = Scrollbar(top, orient = HORIZONTAL)
 mapscrollx.pack(side = BOTTOM, fill = X)
 mapscrolly = Scrollbar(top, orient = VERTICAL)
@@ -618,14 +611,3 @@ draw_everything(tehcanvas,dungeon)
 #create grid here
 tehcanvas.pack()
 top.mainloop()
-
-#import tkinter
-#main window
-#canvas
-#loop through dungeon loop, and draw all things
-#canvas has methods to draw things.
-#tk image class to import pictures?
-#draw line, draw thing
-#main loop: hands control of program to TK ui
-#part of teh tk library
-#   here "callback" performs functions like things...just make the thing drawing.
