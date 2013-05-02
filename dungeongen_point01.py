@@ -69,7 +69,7 @@ def create_a_room(number):
 
 def find_a_room(dungeon_list):
     for room in dungeon_list:
-        if room.room_type == "room":
+        if room.room_type == "room" or room.room_type == "hall":
             if room.doors_finished == False:
                 #print "room ", room, " needs connected doors"
                 room.doors_finished = True
@@ -530,9 +530,7 @@ def make_a_dungeon(rooms, rating, dungeon):
 #======================================================================
     while rooms_in_dungeon < rooms:#rooms_to_add:#rooms:
         ohdeargod = True
-    
-    #I need the "look through teh whole dungeon array and see if any object is in this location" function
-        
+
         ohdeargod, current_room = find_a_room(dungeon)
         if ohdeargod == False:
             print "everything is ruined forever"
@@ -548,7 +546,6 @@ def make_a_dungeon(rooms, rating, dungeon):
         #print "#fill this room with doors and rooms"
     #else:
         #"#(next)"
-    
     return dungeon
 
 #=======================================================================
