@@ -2,6 +2,7 @@
 # Chris Pack
 #=====================================================
 from Tkinter import *
+import random
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
@@ -16,31 +17,55 @@ def draw_door(acanvas,adoor):
     point2x = point1x
     point2y = point1y
     facing = adoor.direction
-    if facing == "east":
-        point1x += .75 * pixels_per_square
-        point1y += .25 * pixels_per_square
-        point2x += 1 * pixels_per_square
-        point2y += .75 * pixels_per_square
-    elif facing == "south":
-        point1x += .25 * pixels_per_square
-        point1y += .75 * pixels_per_square
-        point2x += .75 * pixels_per_square
-        point2y += 1 * pixels_per_square
-    elif facing == "west":
-        point1x += 0 * pixels_per_square
-        point1y += .25 * pixels_per_square
-        point2x += .25 * pixels_per_square
-        point2y += .75 * pixels_per_square
-    elif facing == "north":
-        point1x += .25 * pixels_per_square
-        point1y += 0 * pixels_per_square
-        point2x += .75 * pixels_per_square
-        point2y += .25 * pixels_per_square
-    else:
-        print "You cannot face Dennis!"
-    
-    acanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="brown")
+    if adoor.printme == 1:
+        if facing == "east":
+            point1x += .75 * pixels_per_square
+            point1y += .25 * pixels_per_square
+            point2x += 1 * pixels_per_square
+            point2y += .75 * pixels_per_square
+        elif facing == "south":
+            point1x += .25 * pixels_per_square
+            point1y += .75 * pixels_per_square
+            point2x += .75 * pixels_per_square
+            point2y += 1 * pixels_per_square
+        elif facing == "west":
+            point1x += 0 * pixels_per_square
+            point1y += .25 * pixels_per_square
+            point2x += .25 * pixels_per_square
+            point2y += .75 * pixels_per_square
+        elif facing == "north":
+            point1x += .25 * pixels_per_square
+            point1y += 0 * pixels_per_square
+            point2x += .75 * pixels_per_square
+            point2y += .25 * pixels_per_square
+        else:
+            print "You cannot face Dennis!"
+        
+        acanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="brown")
 
+def create_a_room(number):
+    temprand = random.randint(1,number)
+    
+    if temprand == 10:
+        return 8, 12
+    elif temprand == 9:
+        return 8, 8
+    elif temprand == 8:
+        return 6,8
+    elif temprand == 7:
+        return 8,6
+    elif temprand == 6:
+        return 6,6
+    elif temprand == 5:
+        return 4,4
+    elif temprand == 4:
+        return 2,4
+    elif temprand == 3:
+        return 4,2
+    elif temprand == 2:
+        return 2,2
+    elif temprand == 1:
+        return 1,3
 
 def find_a_room(dungeon_list):
     for room in dungeon_list:
@@ -65,8 +90,10 @@ def fill_a_room(empty_room):
     #print "number of doors it thinks it has:", empty_room.num_of_doors
     
     #two parts:
-    #part 1: insert number of doors into room
-    #
+    #====================================================
+    #Fill-a-Room part 1: insert number of doors into room
+    #====================================================
+
     #for (counter = 0 counter < random_number counter++)
     for doors_to_add in range (0, random_number):
         #print "door creation iteration ", doors_to_add
@@ -135,7 +162,10 @@ def fill_a_room(empty_room):
                 tempdoorout.set_direction(tempfacing2)
                 #tempdoorout.add_door()#create partner door don't want this associated with teh room
                 tempdoorout.feat_type = temptype
+                #tempdoorout.printme = 0
                 dungeon.append(tempdoorout)
+                tempdoorin.partnerdoor = tempdoorout
+                tempdoorout.partnerdoor = tempdoorin
                 stilltrying = False
             else:
                 #print "this door overlaps another"
@@ -157,10 +187,12 @@ def fill_a_room(empty_room):
             #return
     #
     #print "doors added to current room", empty_room.num_of_doors
-    #part 2: insert room on the end of each door
-    #
+    #====================================================
+    #Fill-a-Room part 2: insert rooms onto doors
+    #====================================================
     if empty_room.num_of_doors == 0:
         print "no doors in this room"
+        #ERROR this should never happen
         
     #for this_door in range (0, empty_room.num_of_doors):
     for this_door in empty_room.doors:
@@ -174,49 +206,69 @@ def fill_a_room(empty_room):
         temp_size_y = 3
         temp_type = "room"
         temp_door_facing = this_door.get_direction()
+        #temp_size_x, temp_size_y = create_a_room()
+        randkey = 0
         
-        if temp_door_facing == "north":
-            temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
-            temp_loc_y = this_door.y_coordinate - temp_size_y
+        randkey = random.randint(1,10)
+        #print randkey
+        while randkey > 0:
+            temp_size_x, temp_size_y = create_a_room(randkey)
+            #print temp_size_x, temp_size_y
+            if temp_size_x == 1:
+                temp_type = "hall"
+                if temp_door_facing == "east" or temp_door_facing == "west":
+                    temp_size_x = 3
+                    temp_size_y = 1
+            
+            if temp_door_facing == "north":
+                temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
+                temp_loc_y = this_door.y_coordinate - temp_size_y
+            
+            if temp_door_facing == "south":
+                temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
+                temp_loc_y = this_door.y_coordinate
+                temp_loc_y = temp_loc_y + 1
+            
+            if temp_door_facing == "east":
+                temp_loc_x = this_door.x_coordinate
+                temp_loc_x = temp_loc_x + 1
+                temp_loc_y = this_door.y_coordinate - (temp_size_y/2)
+            
+            if temp_door_facing == "west":
+                temp_loc_x = this_door.x_coordinate - temp_size_x
+                temp_loc_y = this_door.y_coordinate - (temp_size_y/2)
+            
+            #new room location x and Y now determined, now look for conflicts.
+            temp_room.set_coordinates(temp_loc_x, temp_loc_y)
+            temp_room.set_size(temp_size_x,temp_size_y)
+            temp_room.set_type(temp_type)
+            temp_room.get_my_coordinates_list()
+            #====================================================================
+            for each_room in dungeon:
+                if each_room.room_type == "room" or each_room.room_type == "hall":
+                    for room_coordinates in range (0, len(each_room.my_coordinates)):
+                        if temp_room.are_you_in_this_square(each_room.my_coordinates[room_coordinates]):
+                            temp_room.room_is_legal = 0
+            #====================================================================
+            if temp_room.room_is_legal == 1:
+                temp_room.add_room()#win            
+                #print "this room is legal"
+                randkey = 1
+                this_door.printme = 1
+                this_door.partnerdoor.printme = 1
+                #stilltrying = False
+            else:
+                pass
+                this_door.printme = 0
+                this_door.partnerdoor.printme = 0
+                #print "this room overlaps another"
+                #flag this door DO NOT PRINT
+                #sidestried +=1
+            temp_room.room_is_legal = 1
+            #print "added or did not add room"
+            #===========================================================
+            randkey -= 1
         
-        if temp_door_facing == "south":
-            temp_loc_x = this_door.x_coordinate - (temp_size_x/2)
-            temp_loc_y = this_door.y_coordinate
-            temp_loc_y = temp_loc_y + 1
-        
-        if temp_door_facing == "east":
-            temp_loc_x = this_door.x_coordinate
-            temp_loc_x = temp_loc_x + 1
-            temp_loc_y = this_door.y_coordinate - (temp_size_y/2)
-        
-        if temp_door_facing == "west":
-            temp_loc_x = this_door.x_coordinate - temp_size_x
-            temp_loc_y = this_door.y_coordinate - (temp_size_y/2)
-        
-        #new room location x and Y now determined, now look for conflicts.
-        temp_room.set_coordinates(temp_loc_x, temp_loc_y)
-        temp_room.set_size(temp_size_x,temp_size_y)
-        temp_room.set_type(temp_type)
-        temp_room.get_my_coordinates_list()
-        #====================================================================
-        for each_room in dungeon:
-            if each_room.room_type == "room":
-                for room_coordinates in range (0, len(each_room.my_coordinates)):
-                    if temp_room.are_you_in_this_square(each_room.my_coordinates[room_coordinates]):
-                        temp_room.room_is_legal = 0
-        #====================================================================
-        if temp_room.room_is_legal == 1:
-            temp_room.add_room()#win            
-            #print "this room is legal"
-            #stilltrying = False
-        else:
-            pass
-            #print "this room overlaps another"
-            #sidestried +=1
-        temp_room.room_is_legal = 1
-        #print "added or did not add room"
-        #===========================================================
-
 
 class Room:
     #room_type: room, hall, stairs? grand hall? chamber?
@@ -290,7 +342,8 @@ class Room:
         dungeon.append(self)
         #print len(dungeon)
         global rooms_in_dungeon
-        rooms_in_dungeon += 1
+        if self.room_type == "room":
+            rooms_in_dungeon += 1
         self.get_my_coordinates_list()
         #print "added a room to the dungeon."
         #print "current number of rooms in dungeon: " , rooms_in_dungeon
@@ -307,6 +360,8 @@ class Feature:
         self.y_size = 1
         self.direction = "north" #exits are north,south,and dennis
         self.door_is_legal = 1
+        self.printme = 1
+        self.partnerdoor = 0
 
     def __str__(self):
         return "door("+ ", ".join([str(self.x_coordinate), str(self.y_coordinate), str(self.x_size), str(self.y_size)])+ ")"
@@ -512,7 +567,7 @@ def generatedungeon(rooms, cr):
 def draw_everything(acanvas,adungeon):
     acanvas.delete('all')
     for each_room in adungeon:
-        if each_room.room_type == "room":
+        if each_room.room_type == "room" or each_room.room_type == "hall":
             point1x,point1y = each_room.get_coordinates()
             sizex,sizey = each_room.get_size()
             point2x = point1x + sizex
@@ -580,20 +635,6 @@ top = Tk()
 tehframe = Frame(top)
 tehframe.pack(side = LEFT, fill = Y, expand = TRUE)
 
-#crvar = IntVar()
-#roomsvar = IntVar()
-
-#scale = Scale(tehframe, variable = crvar, from_ = 1, to = 20, command = crselect)
-#scale.pack(side=LEFT)
-
-#button = Button(tehframe, text="Select CR", command=crselect)
-#sbutton.pack(side=LEFT)
-
-#crlabel = Label(tehframe)
-#crlabel.pack(side = LEFT)
-
-#totalrooms = Spinbox(tehframe, from_=1, to=200)
-#totalrooms.pack(side = LEFT)
 settingsbox = levelselect(top, generatedungeon)
 
 generatebutton = Button(tehframe, text="Generate", command = settingsbox.prompt)
