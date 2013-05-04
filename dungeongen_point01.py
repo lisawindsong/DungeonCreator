@@ -3,6 +3,7 @@
 #=====================================================
 from Tkinter import *
 import random
+import tkMessageBox
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
@@ -77,7 +78,7 @@ def find_a_room(dungeon_list):
             else:
                 pass
                 #print "room ", room, " is done."
-    print "No unfinished rooms in dungeon"
+    #print "No unfinished rooms in dungeon"
     return False, room
             
 def fill_a_room(empty_room):
@@ -191,7 +192,8 @@ def fill_a_room(empty_room):
     #Fill-a-Room part 2: insert rooms onto doors
     #====================================================
     if empty_room.num_of_doors == 0:
-        print "no doors in this room"
+        pass
+        #print "no doors in this room"
         #ERROR this should never happen
         
     #for this_door in range (0, empty_room.num_of_doors):
@@ -258,7 +260,7 @@ def fill_a_room(empty_room):
                 this_door.partnerdoor.printme = 1
                 #stilltrying = False
             else:
-                pass
+                #pass
                 this_door.printme = 0
                 this_door.partnerdoor.printme = 0
                 #print "this room overlaps another"
@@ -342,7 +344,7 @@ class Room:
         dungeon.append(self)
         #print len(dungeon)
         global rooms_in_dungeon
-        if self.room_type == "room":
+        if self.room_type == "room":#only count "rooms" for the purpose of dungeon size. halls are boring.
             rooms_in_dungeon += 1
         self.get_my_coordinates_list()
         #print "added a room to the dungeon."
@@ -533,7 +535,7 @@ def make_a_dungeon(rooms, rating, dungeon):
 
         ohdeargod, current_room = find_a_room(dungeon)
         if ohdeargod == False:
-            print "everything is ruined forever"
+            #print "everything is ruined forever"
             break#this shouldn't happen, and right now if it happens I'm screwed
     
         #current_room should now be set to the first room without any doors
@@ -563,6 +565,37 @@ def generatedungeon(rooms, cr):
     
 def draw_everything(acanvas,adungeon):
     acanvas.delete('all')
+    tempxmin = 0
+    tempymin = 0
+    tempxmax = 19
+    tempymax = 17
+    
+    for each_room in adungeon:
+        if each_room.room_type == "room" or each_room.room_type == "hall":
+            #print each_room.my_coordinates
+            for each_pair in each_room.my_coordinates:
+                tempx,tempy = each_pair
+                if tempx < tempxmin:
+                    tempxmin = tempx
+                if tempx > tempxmax:
+                    tempxmax = tempx
+                if tempy < tempymin:
+                    tempymin = tempy
+                if tempy > tempymax:
+                    tempymax = tempy
+                    
+    #print tempxmin, tempymin, tempxmax, tempymax
+    tempxmin -=1
+    tempymin -=1
+    tempxmax +=2
+    tempymax +=2
+    #print tempxmin, tempymin, tempxmax, tempymax
+    acanvas.config(scrollregion = (tempxmin * pixels_per_square, tempymin * pixels_per_square, tempxmax * pixels_per_square, tempymax * pixels_per_square))
+                #print tempx, tempy
+    
+    acanvas.xview_moveto(.3)
+    acanvas.yview_moveto(.3)
+    
     for each_room in adungeon:
         if each_room.room_type == "room" or each_room.room_type == "hall":
             point1x,point1y = each_room.get_coordinates()
@@ -583,19 +616,23 @@ def draw_everything(acanvas,adungeon):
             #print "door", each_room
             #print each_room.get_coordinates()s
     #--------------------------------------------------------------------------------------------------------
-    for counterx in range(-48,63):
-        acanvas.create_line(counterx * pixels_per_square,-2000, counterx * pixels_per_square, 3000)
+    #range (-48,63)
+    for counterx in range(tempxmin,tempxmax):
+        acanvas.create_line(counterx * pixels_per_square, tempymin * pixels_per_square, counterx * pixels_per_square, tempymax * pixels_per_square)
     
-    for countery in range(-48,63):
-        acanvas.create_line(-2000,countery * pixels_per_square, 3000, countery * pixels_per_square)
+    for countery in range(tempymin,tempymax):
+        acanvas.create_line(tempxmin * pixels_per_square, countery * pixels_per_square, tempxmax * pixels_per_square, countery * pixels_per_square)
 
 class levelselect:
     def __init__(self, parent, command):
         self.command = command
         self.parent = parent
+
     
     def prompt(self):
         top = self.top = Toplevel(self.parent)
+        top.transient(self.parent)
+        top.grab_set()
         #----------------------------------------------
         frame1 = Frame(top)
         frame1.pack(side = TOP, fill = Y, expand = TRUE)
@@ -628,6 +665,9 @@ class levelselect:
     def cancel(self):
         self.top.destroy()
 
+def aboutbox():
+    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate.")
+
 top = Tk()
 tehframe = Frame(top)
 tehframe.pack(side = LEFT, fill = Y, expand = TRUE)
@@ -636,6 +676,12 @@ settingsbox = levelselect(top, generatedungeon)
 
 generatebutton = Button(tehframe, text="Generate", command = settingsbox.prompt)
 generatebutton.pack(side = TOP)
+
+aboutbutton = Button(tehframe, text = "About", command = aboutbox)
+aboutbutton.pack(side = TOP, fill = X, pady = 3)
+
+quitbutton = Button(tehframe, text = "Quit", command = quit)
+quitbutton.pack(side = TOP, fill = X)
 
 mapscrollx = Scrollbar(top, orient = HORIZONTAL)
 mapscrollx.pack(side = BOTTOM, fill = X)
@@ -646,6 +692,7 @@ tehcanvas = Canvas(top, bg="gray30", height = 800, width = 800, xscrollcommand =
 mapscrollx.config(command = tehcanvas.xview)
 mapscrolly.config(command = tehcanvas.yview)
 draw_everything(tehcanvas,dungeon)
+#tehcanvas.config(scrollregion = (tempxmin, tempymin, tempxmax, tempymax))
 #create grid here
 tehcanvas.pack()
 top.mainloop()
