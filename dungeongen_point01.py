@@ -4,6 +4,7 @@
 from Tkinter import *
 import random
 import tkMessageBox
+import Pmw
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
@@ -271,7 +272,59 @@ def fill_a_room(empty_room):
             #===========================================================
             randkey -= 1
         
-
+def get_monster(cr):
+    print "hand monster"
+    crmin = cr - 1
+    crmax = cr + 1
+    temprand = random.randint(crmin, crmax)
+    
+    if temprand == 0:
+        return "Level 0 monster"
+    elif temprand == 1:
+        return "Level 1 monster"
+    elif temprand == 2:
+        return "Level 2 monster"
+    elif temprand == 3:
+        return "Level 3 monster"
+    elif temprand == 4:
+        return "Level 4 monster"
+    elif temprand == 5:
+        return "Level 5 monster"
+    elif temprand == 6:
+        return "Level 6 monster"
+    elif temprand == 7:
+        return "Level 7 monster"
+    elif temprand == 8:
+        return "Level 8 monster"
+    elif temprand == 9:
+        return "Level 9 monster"
+    elif temprand == 10:
+        return "Level 10 monster"
+    elif temprand == 11:
+        return "Level 11 monster"
+    elif temprand == 12:
+        return "Level 12 monster"
+    elif temprand == 13:
+        return "Level 13 monster"
+    elif temprand == 14:
+        return "Level 14 monster"
+    elif temprand == 15:
+        return "Level 15 monster"
+    elif temprand == 16:
+        return "Level 16 monster"
+    elif temprand == 17:
+        return "Level 17 monster"
+    elif temprand == 18:
+        return "Level 18 monster"
+    elif temprand == 19:
+        return "Level 19 monster"
+    elif temprand == 20:
+        return "Level 20 monster"
+    elif temprand == 21:
+        return "Boss monster"
+    else:
+        return "grue"
+    
 class Room:
     #room_type: room, hall, stairs? grand hall? chamber?
     def __init__(self):
@@ -351,7 +404,7 @@ class Room:
         #print "current number of rooms in dungeon: " , rooms_in_dungeon
         
 class Feature:
-    #feat_type: door, trap, treasure
+    #feat_type: door, monster, stairs, trap, treasure
     def __init__(self):
         self.my_room = 0
         self.room_type = 0
@@ -364,6 +417,7 @@ class Feature:
         self.door_is_legal = 1
         self.printme = 1
         self.partnerdoor = 0
+        self.monsterdata = ""
 
     def __str__(self):
         return "door("+ ", ".join([str(self.x_coordinate), str(self.y_coordinate), str(self.x_size), str(self.y_size)])+ ")"
@@ -548,8 +602,28 @@ def make_a_dungeon(rooms, rating, dungeon):
         #print "#fill this room with doors and rooms"
     #else:
         #"#(next)"
-    return dungeon
+    tempfeature = Feature()
+    tempfeature.feat_type = "stairs"
+    tempfeature.set_coordinates(6,7)
+    dungeon.append(tempfeature)
 
+    #insert code to put monsters in rooms here
+    for each_room in dungeon:
+        evil = 0
+        monster = 0
+        if each_room.room_type == "room":
+            evil = random.randint(0,1)
+            if evil == 1:
+                #monster = get_monster(rating)
+                tempfeature = Feature()
+                tempfeature.feat_type = "monster"
+                tempfeature.monsterdata = get_monster(rating)
+                tempx, tempy = each_room.get_coordinates()
+                #print tempx, tempy
+                tempfeature.set_coordinates(tempx + 1, tempy + 1)
+                dungeon.append(tempfeature)
+    
+    return dungeon
 #=======================================================================
 #------------------------       Display loop    ------------------------
 #=======================================================================
@@ -608,7 +682,7 @@ def draw_everything(acanvas,adungeon):
             point2x *= pixels_per_square
             point2y *= pixels_per_square
             
-            acanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="gray50", outline="black", width = 5)
+            acanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="gray50", outline="black", width = 5, )
     #--------------------------------------------------------------------------------------------------------
     for each_door in adungeon:
         if each_door.feat_type == "door":
@@ -616,13 +690,24 @@ def draw_everything(acanvas,adungeon):
             #print "door", each_room
             #print each_room.get_coordinates()s
     #--------------------------------------------------------------------------------------------------------
-    #range (-48,63)
     for counterx in range(tempxmin,tempxmax):
         acanvas.create_line(counterx * pixels_per_square, tempymin * pixels_per_square, counterx * pixels_per_square, tempymax * pixels_per_square)
     
     for countery in range(tempymin,tempymax):
         acanvas.create_line(tempxmin * pixels_per_square, countery * pixels_per_square, tempxmax * pixels_per_square, countery * pixels_per_square)
-
+    
+    for each_stairs in adungeon:
+        if each_stairs.feat_type == "stairs":
+            tempx, tempy = each_stairs.get_coordinates()
+            acanvas.create_image(tempx * pixels_per_square, tempy * pixels_per_square, image = stairs1, anchor = NW)
+            
+    for each_monster in adungeon:
+        if each_monster.feat_type == "monster":
+            tempx,tempy = each_monster.get_coordinates()
+            monsterid = acanvas.create_image(tempx * pixels_per_square, tempy * pixels_per_square, image = monster1, anchor = NW)
+            balloon.tagbind(acanvas, monsterid, each_monster.monsterdata)
+        
+        
 class levelselect:
     def __init__(self, parent, command):
         self.command = command
@@ -670,9 +755,15 @@ def aboutbox():
 
 top = Tk()
 tehframe = Frame(top)
+Pmw.initialise(top)
 tehframe.pack(side = LEFT, fill = Y, expand = TRUE)
 
+stairs1 = PhotoImage(file = 'stairs1.gif')
+monster1 = PhotoImage(file = 'monster1.gif')
+
 settingsbox = levelselect(top, generatedungeon)
+
+balloon = Pmw.Balloon(top)
 
 generatebutton = Button(tehframe, text="Generate", command = settingsbox.prompt)
 generatebutton.pack(side = TOP)
@@ -687,12 +778,11 @@ mapscrollx = Scrollbar(top, orient = HORIZONTAL)
 mapscrollx.pack(side = BOTTOM, fill = X)
 mapscrolly = Scrollbar(top, orient = VERTICAL)
 mapscrolly.pack(side = RIGHT, fill = Y)
-#leftframe = Tkinter.Frame(top)
+
 tehcanvas = Canvas(top, bg="gray30", height = 800, width = 800, xscrollcommand = mapscrollx.set, yscrollcommand = mapscrolly.set, scrollregion = (-2000,-2000,3000,3000))
 mapscrollx.config(command = tehcanvas.xview)
 mapscrolly.config(command = tehcanvas.yview)
 draw_everything(tehcanvas,dungeon)
-#tehcanvas.config(scrollregion = (tempxmin, tempymin, tempxmax, tempymax))
-#create grid here
+
 tehcanvas.pack()
 top.mainloop()
