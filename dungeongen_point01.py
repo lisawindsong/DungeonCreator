@@ -962,7 +962,7 @@ def make_a_dungeon(rooms, rating, dungeon):
         #current_room is now set to the first room in the dungeon list without doors
         fill_a_room(current_room)
         
-    print "end of dungeon building loop, max rooms reached" #done with the whole thing.
+    #print "end of dungeon building loop, max rooms reached" #done with the whole thing.
 
 #manually add stairs to the first room
     tempfeature = Feature()
