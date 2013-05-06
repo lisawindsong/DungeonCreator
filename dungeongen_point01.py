@@ -8,9 +8,7 @@ import Pmw
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
-#rooms_to_add = 25
 pixels_per_square = 48
-#current_room = 0
 
 def draw_door(acanvas,adoor):
     point1x,point1y = adoor.get_coordinates()
@@ -73,7 +71,6 @@ def find_a_room(dungeon_list):
     for room in dungeon_list:
         if room.room_type == "room" or room.room_type == "hall":
             if room.doors_finished == False:
-                #print "room ", room, " needs connected doors"
                 room.doors_finished = True
                 return True, room
             else:
@@ -83,22 +80,16 @@ def find_a_room(dungeon_list):
     return False, room
             
 def fill_a_room(empty_room):
-    #global dungeon
-    random_number = 3#guaranteed by fair die roll to be random    #   number of doors to add
+    random_number = 3#guaranteed by fair die roll to be random    #number of doors to add
     roomx,roomy = empty_room.get_coordinates()
     roomwide,roomtall = empty_room.get_size()
-    #print "number of doors in empty room:", len(empty_room.doors)
-    #print "empty room is", empty_room
-    #print "number of doors it thinks it has:", empty_room.num_of_doors
-    
+
     #two parts:
     #====================================================
     #Fill-a-Room part 1: insert number of doors into room
     #====================================================
 
-    #for (counter = 0 counter < random_number counter++)
     for doors_to_add in range (0, random_number):
-        #print "door creation iteration ", doors_to_add
         tempdoorin = Feature()
         tempdoorout = Feature()
         templocx = 1
@@ -114,8 +105,6 @@ def fill_a_room(empty_room):
         #if there is a door in xy, move to next wall
         while stilltrying and (sidestried < 4):
             if tempfacing == "east":
-                #print "Pretend I did something east"
-                #templocx = empty_room.x_coordinate + empty_room.x_size
                 templocx = roomx + roomwide -1
                 templocy = roomy + roomtall/2
                 tempfacing2 = "west"
@@ -123,7 +112,6 @@ def fill_a_room(empty_room):
                 templocy2 = templocy
             
             if tempfacing == "south":
-                #print "Pretend I did something south"
                 templocx = roomx + roomwide/2
                 templocy = roomy + roomtall - 1
                 tempfacing2 = "north"
@@ -131,7 +119,6 @@ def fill_a_room(empty_room):
                 templocy2 = templocy + 1
             
             if tempfacing == "west":
-                #print "Pretend I did something west"
                 templocx = roomx
                 templocy = roomy + roomtall/2
                 tempfacing2 = "east"
@@ -139,14 +126,13 @@ def fill_a_room(empty_room):
                 templocy2 = templocy
             
             if tempfacing == "north":
-                #print "Pretend I did something north"
                 templocx = roomx + roomwide/2
                 templocy = roomy
                 tempfacing2 = "south"
                 templocx2 = templocx
                 templocy2 = templocy - 1
             
-            #am I creating doors that will overlap other rooms in the future?
+            #make sure there isn't enother door in this spot already
             for each_door in dungeon:
                 if each_door.feat_type == "door":
                     if each_door.are_you_in_this_square((templocx,templocy)):
@@ -158,19 +144,16 @@ def fill_a_room(empty_room):
                 tempdoorin.set_coordinates(templocx,templocy)
                 tempdoorin.set_direction(tempfacing)
                 tempdoorin.feat_type = temptype
-                #dungeon.append(tempdoorin)
                 empty_room.add_door(tempdoorin)#create door
                 tempdoorout.set_coordinates(templocx2,templocy2)
                 tempdoorout.set_direction(tempfacing2)
-                #tempdoorout.add_door()#create partner door don't want this associated with teh room
                 tempdoorout.feat_type = temptype
                 #tempdoorout.printme = 0
-                dungeon.append(tempdoorout)
+                dungeon.append(tempdoorout)#create shadow door
                 tempdoorin.partnerdoor = tempdoorout
                 tempdoorout.partnerdoor = tempdoorin
                 stilltrying = False
             else:
-                #print "this door overlaps another"
                 if tempfacing == "east":
                     tempfacing = "south"
                 elif tempfacing == "south":
@@ -182,13 +165,10 @@ def fill_a_room(empty_room):
                 sidestried +=1
             tempdoorin.door_is_legal = 1
             #print "end of doors loop, restarting"
-            #
-        if sidestried >3:#  sidestried==4
+        if sidestried >3:
             pass
             #print "tried all the times and couldn't place another door"
-            #return
-    #
-    #print "doors added to current room", empty_room.num_of_doors
+            
     #====================================================
     #Fill-a-Room part 2: insert rooms onto doors
     #====================================================
@@ -197,26 +177,19 @@ def fill_a_room(empty_room):
         #print "no doors in this room"
         #ERROR this should never happen
         
-    #for this_door in range (0, empty_room.num_of_doors):
     for this_door in empty_room.doors:
-        #print "room creation iteration", len(empty_room.doors)
         temp_room = Room()
         temp_loc_x = 0
         temp_loc_y = 0
-        #create random size
-        #actually make these random later
         temp_size_x = 3
         temp_size_y = 3
         temp_type = "room"
         temp_door_facing = this_door.get_direction()
-        #temp_size_x, temp_size_y = create_a_room()
         randkey = 0
         
         randkey = random.randint(1,10)
-        #print randkey
         while randkey > 0:
             temp_size_x, temp_size_y = create_a_room(randkey)
-            #print temp_size_x, temp_size_y
             if temp_size_x == 1:
                 temp_type = "hall"
                 if temp_door_facing == "east" or temp_door_facing == "west":
@@ -261,19 +234,14 @@ def fill_a_room(empty_room):
                 this_door.partnerdoor.printme = 1
                 #stilltrying = False
             else:
-                #pass
                 this_door.printme = 0
                 this_door.partnerdoor.printme = 0
-                #print "this room overlaps another"
-                #flag this door DO NOT PRINT
-                #sidestried +=1
+                #flag this door and it's shadow door DO NOT PRINT
             temp_room.room_is_legal = 1
-            #print "added or did not add room"
             #===========================================================
             randkey -= 1
         
 def get_monster(cr):
-    print "hand monster"
     crmin = cr - 1
     crmax = cr + 1
     temprand = random.randint(crmin, crmax)
@@ -346,10 +314,8 @@ class Room:
     def get_my_coordinates_list(self):
         for width in range(0, self.x_size):
             for height in range(0, self.y_size):
-                #print "height = ", height
                 tempx = width + self.x_coordinate
                 tempy = height + self.y_coordinate
-                #print "coordinates are ", tempx, tempy
                 self.my_coordinates.append((tempx,tempy))
             
     def set_coordinates(self, x, y):
@@ -379,10 +345,8 @@ class Room:
         tempyfinish = tempystart + tempysize -1
         
         if (((x >= tempxstart) and (x <= tempxfinish)) and ((y>= tempystart) and (y<= tempyfinish))):
-            #print "in the room's range"
             return True#the coordinate passed in is in the room's range
         else:
-            #print "not in the room's range"
             return False
 
     def add_door(self,door):
@@ -395,13 +359,10 @@ class Room:
         
     def add_room(self):
         dungeon.append(self)
-        #print len(dungeon)
         global rooms_in_dungeon
         if self.room_type == "room":#only count "rooms" for the purpose of dungeon size. halls are boring.
             rooms_in_dungeon += 1
         self.get_my_coordinates_list()
-        #print "added a room to the dungeon."
-        #print "current number of rooms in dungeon: " , rooms_in_dungeon
         
 class Feature:
     #feat_type: door, monster, stairs, trap, treasure
@@ -441,39 +402,20 @@ class Feature:
     def set_direction(self, newdirection):
         self.direction = newdirection
 
-    def place_door(self, wallsize):
-        pass
-        #
-        #check to see if this place has a door in it
-        #
-        #dungeon.append(self)
-        # can I call add_door here, to the room it is in?  I'd like to
-        #my_room.add_door(self)#something like this?
-    
-    #def set_room(self,Room):
+    #def place_door(self, wallsize):
         #pass
-        #my_room = Room #this should be correct
     
     def are_you_in_this_square(self, (x, y)):
         tempx = self.x_coordinate        
         tempy = self.y_coordinate
         
         if (x == tempx and y == tempy):
-            #print "in the door's range"
             return True#the coordinate passed in is in the door's range
         else:
-            #print "not in the room's range"
             return False
             
-    def is_door(self,x, y):#arguments: theoretical door x/y
-        pass
-        #for sizeof(my_room.doors)#my_room.doors[]?
-            #if(my_room.doors[x]
-            # for each item in the list "my_room.doors"
-            #   look at the x/y coordinate.  if the x/y coordinate = the x/y coordinate passed in
-            #       return true
-            #   else
-            #       return false
+    #def is_door(self,x, y):#arguments: theoretical door x/y
+        #pass
             
 #=================================================
 #-----          main program start
@@ -481,11 +423,12 @@ class Feature:
 
 def make_a_dungeon(rooms, rating, dungeon):
 
+#create static starting room
     entry = Room()
     entry.set_coordinates(5, 5)
     entry.set_size(3,5)
     entry.set_type("room")
-    entry.add_room() # is this silly?
+    entry.add_room()
     entry.doors_finished = True
     #doors out of room
     door1_1 = Feature()
@@ -533,9 +476,8 @@ def make_a_dungeon(rooms, rating, dungeon):
     door2_4.feat_type = "door"
     door2_4.set_direction("south")
     door2_4.set_coordinates(6,4)
-    #entry.get_my_coordinates_list()  added to add_room
-    #print entry.my_coordinates
-    dungeon.append(door2_1)
+    
+    dungeon.append(door2_1)#we don't add shadow doors
     dungeon.append(door2_2)
     dungeon.append(door2_3)
     dungeon.append(door2_4)
@@ -544,8 +486,6 @@ def make_a_dungeon(rooms, rating, dungeon):
         temp_room = Room()
         temp_loc_x = 0
         temp_loc_y = 0
-        #create random size
-        #actually make these random later
         temp_size_x = 3
         temp_size_y = 3
         temp_type = "room"
@@ -572,54 +512,42 @@ def make_a_dungeon(rooms, rating, dungeon):
         temp_room.set_coordinates(temp_loc_x,temp_loc_y)
         temp_room.set_size(temp_size_x,temp_size_y)
     
-        #print temp_room.get_coordinates()
         temp_room.room_type = temp_type
         temp_room.add_room()
-        #print "there are", len(temp_room.doors), "doors in this room"
-    #for each_room in dungeon:
-    #    if each_room.room_type == "room":
-    #        print "these are my coordinates:"
-    #        print each_room.my_coordinates
-    #        print "those were my coordinates"            
+         
 #======================================================================
 #------------------------       Main loop       -----------------------
 #======================================================================
-    while rooms_in_dungeon < rooms:#rooms_to_add:#rooms:
+    while rooms_in_dungeon < rooms:
         ohdeargod = True
 
         ohdeargod, current_room = find_a_room(dungeon)
         if ohdeargod == False:
-            #print "everything is ruined forever"
-            break#this shouldn't happen, and right now if it happens I'm screwed
+            #no rooms left to add doors to, and not enough rooms in dungeon
+            break#this shouldn't happen
     
-        #current_room should now be set to the first room without any doors
-    
+        #current_room is now set to the first room in the dungeon list without doors
         fill_a_room(current_room)
         
     print "end of dungeon building loop, max rooms reached" #done with the whole thing.
-        #unhandled case: dungeon didn't build enough   rooms to hit cap?  what then?
-    #if (find_a_room(first_room) == True):
-        #print "#fill this room with doors and rooms"
-    #else:
-        #"#(next)"
+
+#manually add stairs to the first room
     tempfeature = Feature()
     tempfeature.feat_type = "stairs"
     tempfeature.set_coordinates(6,7)
     dungeon.append(tempfeature)
 
-    #insert code to put monsters in rooms here
+#populate the dungeon with level appropriate encounters
     for each_room in dungeon:
         evil = 0
         monster = 0
         if each_room.room_type == "room":
-            evil = random.randint(0,1)
+            evil = random.randint(0,1)#50/50 chance of a monster in a room
             if evil == 1:
-                #monster = get_monster(rating)
                 tempfeature = Feature()
                 tempfeature.feat_type = "monster"
                 tempfeature.monsterdata = get_monster(rating)
                 tempx, tempy = each_room.get_coordinates()
-                #print tempx, tempy
                 tempfeature.set_coordinates(tempx + 1, tempy + 1)
                 dungeon.append(tempfeature)
     
@@ -633,8 +561,7 @@ def generatedungeon(rooms, cr):
     rooms_in_dungeon = 0
     dungeon = []
     make_a_dungeon(int(rooms), int(cr), dungeon)
-    #for all in dungeon:
-    #    print all
+
     draw_everything(tehcanvas, dungeon)
     
 def draw_everything(acanvas,adungeon):
@@ -657,16 +584,14 @@ def draw_everything(acanvas,adungeon):
                     tempymin = tempy
                 if tempy > tempymax:
                     tempymax = tempy
-                    
-    #print tempxmin, tempymin, tempxmax, tempymax
+    #adjust canvas size to dungeon size with at least one square of padding    
     tempxmin -=1
     tempymin -=1
     tempxmax +=2
     tempymax +=2
-    #print tempxmin, tempymin, tempxmax, tempymax
+
     acanvas.config(scrollregion = (tempxmin * pixels_per_square, tempymin * pixels_per_square, tempxmax * pixels_per_square, tempymax * pixels_per_square))
-                #print tempx, tempy
-    
+    #move scrollbars to the middle-ish
     acanvas.xview_moveto(.3)
     acanvas.yview_moveto(.3)
     
@@ -676,7 +601,7 @@ def draw_everything(acanvas,adungeon):
             sizex,sizey = each_room.get_size()
             point2x = point1x + sizex
             point2y = point1y + sizey
-            #size of each room to scale
+            #change the size of each room to scale
             point1x *= pixels_per_square
             point1y *= pixels_per_square
             point2x *= pixels_per_square
@@ -687,20 +612,19 @@ def draw_everything(acanvas,adungeon):
     for each_door in adungeon:
         if each_door.feat_type == "door":
             draw_door(acanvas,each_door)
-            #print "door", each_room
-            #print each_room.get_coordinates()s
     #--------------------------------------------------------------------------------------------------------
+    #draw the grid
     for counterx in range(tempxmin,tempxmax):
         acanvas.create_line(counterx * pixels_per_square, tempymin * pixels_per_square, counterx * pixels_per_square, tempymax * pixels_per_square)
     
     for countery in range(tempymin,tempymax):
         acanvas.create_line(tempxmin * pixels_per_square, countery * pixels_per_square, tempxmax * pixels_per_square, countery * pixels_per_square)
-    
+    #draw the entry stairs
     for each_stairs in adungeon:
         if each_stairs.feat_type == "stairs":
             tempx, tempy = each_stairs.get_coordinates()
             acanvas.create_image(tempx * pixels_per_square, tempy * pixels_per_square, image = stairs1, anchor = NW)
-            
+    #draw all monster tokens
     for each_monster in adungeon:
         if each_monster.feat_type == "monster":
             tempx,tempy = each_monster.get_coordinates()
@@ -708,11 +632,10 @@ def draw_everything(acanvas,adungeon):
             balloon.tagbind(acanvas, monsterid, each_monster.monsterdata)
         
         
-class levelselect:
+class levelselect:#Generate button options selection box
     def __init__(self, parent, command):
         self.command = command
         self.parent = parent
-
     
     def prompt(self):
         top = self.top = Toplevel(self.parent)
@@ -749,20 +672,20 @@ class levelselect:
         self.command(numrooms, crlevel)
     def cancel(self):
         self.top.destroy()
-
+#about button: thanks to tkMessageBox
 def aboutbox():
-    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate.")
+    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate. \n Hover over monster tokens for monster info. \n Special thanks to Alisa Pack and James Switzer.")
 
 top = Tk()
 tehframe = Frame(top)
 Pmw.initialise(top)
 tehframe.pack(side = LEFT, fill = Y, expand = TRUE)
-
+#save picture files to variables
 stairs1 = PhotoImage(file = 'stairs1.gif')
 monster1 = PhotoImage(file = 'monster1.gif')
 
 settingsbox = levelselect(top, generatedungeon)
-
+#show hover text on monsters, tooltips thanks to PythonMegaWidgets
 balloon = Pmw.Balloon(top)
 
 generatebutton = Button(tehframe, text="Generate", command = settingsbox.prompt)
