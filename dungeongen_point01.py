@@ -1,4 +1,4 @@
-#Dungeon Generator v0.02
+#Dungeon Generator v0.03
 # Chris Pack
 #=====================================================
 from Tkinter import *
@@ -39,7 +39,8 @@ def draw_door(acanvas,adoor):
             point2x += .75 * pixels_per_square
             point2y += .25 * pixels_per_square
         else:
-            print "You cannot face Dennis!"
+            pass
+            #print "You cannot face Dennis!"
         
         acanvas.create_rectangle(point1x, point1y, point2x, point2y, fill="brown")
 
@@ -247,51 +248,474 @@ def get_monster(cr):
     temprand = random.randint(crmin, crmax)
     
     if temprand == 0:
-        return "Level 0 monster"
+        monsterrand = random.randint(1, 14)
+        #return "Level 0 monster"
+        if monsterrand == 1:
+            return "CR 1/8 Bat, p. 131"
+        elif monsterrand == 2:
+            return "CR 1/4 Kobold, p.183"
+        elif monsterrand == 3:
+            return "CR 1/4 Rat, p. 132"
+        elif monsterrand == 4:
+            return "CR 1/4 Mite, p. 207"
+        elif monsterrand == 5:
+            return "CR 1/3 Dire Rat, p. 232"
+        elif monsterrand == 6:
+            return "Cr 1/3 Duergar, p. 117"
+        elif monsterrand == 7:
+            return "CR 1/3 Fire Beetle, p. 33"
+        elif monsterrand == 8:
+            return "CR 1/3 Goblin, p. 156"
+        elif monsterrand == 9:
+            return "CR 1/3 Orc, p. 222"
+        elif monsterrand == 10:
+            return "Cr 1/3 Skeleton, Human, p. 250"
+        elif monsterrand == 11:
+            return "CR 1/2 Giant Centipede, p. 43"
+        elif monsterrand == 12:
+            return "CR 1/2 Hobgoblin, p. 175"
+        elif monsterrand == 13:
+            return "CR 1/2 Stirge, p. 260"
+        elif monsterrand == 14:
+            return "CR 1/2 Vegepygmy, p. 273"
+        elif monsterrand == 15:
+            return "CR 1/2 Zombie, Human, p. 288"
+        else:
+            return "CR 1/4 Kobold, p.183"
+            
     elif temprand == 1:
-        return "Level 1 monster"
+        #return "Level 1 monster"
+        monsterrand = random.randint(1, 11)
+        if monsterrand == 1:
+            return "CR 1 Darkmantle, p. 55"
+        elif monsterrand == 2:
+            return "CR 1 Earth Elemental, small, p. 122"
+        elif monsterrand == 3:
+            return "CR 1 Ghoul, p. 146"
+        elif monsterrand == 4:
+            return "CR 1 Giant Spider, p. 258"
+        elif monsterrand == 5:
+            return "CR 1 Gnoll, p. 155"
+        elif monsterrand == 6:
+            return "Cr 1 Goblin Dog, p. 157"
+        elif monsterrand == 7:
+            return "CR 1 Spider Swarm, p. 258"
+        elif monsterrand == 8:
+            return "CR 1 Troglodyte, p. 267"
+        elif monsterrand == 9:
+            return "CR 1 Kobolds (2), p. 183"
+        elif monsterrand == 10:
+            return "Cr 1 Dire Rats (2), p. 232"
+        elif monsterrand == 11:
+            return "CR 1 Drow (2), p. 114"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 2:
-        return "Level 2 monster"
+        #return "Level 2 monster"
+        monsterrand = random.randint(1, 17)
+        if monsterrand == 1:
+            return "CR 2 Giant Ant, p. 16"
+        elif monsterrand == 2:
+            return "CR 2 Dire Bat, p. 30"
+        elif monsterrand == 3:
+            return "CR 2 Bat Swarm, p. 30"
+        elif monsterrand == 4:
+            return "CR 2 Bugbear, p. 38"
+        elif monsterrand == 5:
+            return "CR 2 Cave Fisher, p. 41"
+        elif monsterrand == 6:
+            return "CR 2 Choker, p. 45"
+        elif monsterrand == 7:
+            return "CR 2 Dark Creeper, p. 53"
+        elif monsterrand == 8:
+            return "CR 2 Demon, Dretch, p. 60"
+        elif monsterrand == 9:
+            return "CR 2 Demon, Quast, p. 66"
+        elif monsterrand == 10:
+            return "CR 2 Iron Cobra, p. 182"
+        elif monsterrand == 11:
+            return "CR 2 Wererat, p. 197"
+        elif monsterrand == 12:
+            return "CR 2 Werewolf, p. 198"
+        elif monsterrand == 13:
+            return "CR 2 Morlock, p. 209"
+        elif monsterrand == 14:
+            return "CR 2 Rat Swarm, p. 232"
+        elif monsterrand == 15:
+            return "CR 2 Skeletal Champion, p. 252"
+        elif monsterrand == 16:
+            return "CR 2 Vargoville, p. 272"
+        elif monsterrand == 17:
+            return "CR 2 Kobolds (3), p. 183"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 3:
-        return "Level 3 monster"
+        #return "Level 3 monster"
+        monsterrand = random.randint(1, 14)
+        if monsterrand == 1:
+            return "CR 3 Medium Animated Object, p. 14"
+        elif monsterrand == 2:
+            return "CR 3 Derro, p. 70"
+        elif monsterrand == 3:
+            return "CR 3 Drow Noble, p. 115"
+        elif monsterrand == 4:
+            return "CR 3 Medium Earth Elemental, p. 122"
+        elif monsterrand == 5:
+            return "CR 3 Gelatinous Cube, p. 138"
+        elif monsterrand == 6:
+            return "Cr 3 Hell Hound, p. 173"
+        elif monsterrand == 7:
+            return "CR 3 Ogre, p. 220"
+        elif monsterrand == 8:
+            return "CR 3 Rust Monster, p. 238"
+        elif monsterrand == 9:
+            return "CR 3 Shadow, p. 245"
+        elif monsterrand == 10:
+            return "Cr 3 Violet Fungus, p. 274"
+        elif monsterrand == 11:
+            return "CR 3 Wight, p. 276"
+        elif monsterrand == 12:
+            return "CR 3 Yeth Hound, p. 286"
+        elif monsterrand == 13:
+            return "CR 3 Kobolds (4), p. 183"
+        elif monsterrand == 14:
+            return "CR 3 Dire Rat + 2 Rat Swarms, p. 232"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 4:
-        return "Level 4 monster"
+        #return "Level 4 monster"
+        monsterrand = random.randint(1, 12)
+        if monsterrand == 1:
+            return "CR 4 Hound, Archon, p.19"
+        elif monsterrand == 2:
+            return "CR 4 Barghest, p. 27"
+        elif monsterrand == 3:
+            return "CR 4 Beetle, Giant Stag, p. 33"
+        elif monsterrand == 4:
+            return "CR 4 Centipede Swarm, p. 43"
+        elif monsterrand == 5:
+            return "CR 4 Dark Stalker, p. 54"
+        elif monsterrand == 6:
+            return "Cr 4 Gargoyle, p. 137"
+        elif monsterrand == 7:
+            return "CR 4 Hydra, p. 178"
+        elif monsterrand == 8:
+            return "CR 4 Mimic, p. 205"
+        elif monsterrand == 9:
+            return "CR 4 Minotaur, p. 206"
+        elif monsterrand == 10:
+            return "Cr 4 Otyugh, p. 223"
+        elif monsterrand == 11:
+            return "CR 4 Kobolds (5), p. 183"
+        elif monsterrand == 12:
+            return "CR 4 Dire Rats (2) + Rat Swarm, p. 232"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 5:
-        return "Level 5 monster"
+        #return "Level 5 monster"
+        monsterrand = random.randint(1, 16)
+        if monsterrand == 1:
+            return "CR 5 Army Ant Swarm, p. 16"
+        elif monsterrand == 2:
+            return "CR 5 Basidirond, p. 28"
+        elif monsterrand == 3:
+            return "CR 5 Basilisk, p. 29"
+        elif monsterrand == 4:
+            return "CR 5 Cloaker, p. 47"
+        elif monsterrand == 5:
+            return "CR 5 Cyclops, p. 52"
+        elif monsterrand == 6:
+            return "CR 5 Large Earth Elemental, p. 122"
+        elif monsterrand == 7:
+            return "CR 5 Gibbering Mouther, p. 153"
+        elif monsterrand == 8:
+            return "CR 5 Manticore, p. 199"
+        elif monsterrand == 9:
+            return "CR 5 Mummy, p. 210"
+        elif monsterrand == 10:
+            return "CR 5 Ochre Jelly, p. 218"
+        elif monsterrand == 11:
+            return "CR 5 Phase Spider, p. 226"
+        elif monsterrand == 12:
+            return "CR 5 Troll, p. 268"
+        elif monsterrand == 13:
+            return "CR 5 Wraith, p. 281"
+        elif monsterrand == 14:
+            return "CR 5 Dire Rat (4) + 2 Rat Swarms, p. 232"
+        elif monsterrand == 15:
+            return "CR 5 Rust Monster (2), p. 238"
+        elif monsterrand == 16:
+            return "CR 5 Kobolds (6), p. 183"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 6:
-        return "Level 6 monster"
+        #return "Level 6 monster"
+        monsterrand = random.randint(1, 10)
+        if monsterrand == 1:
+            return "CR 6 Demon, Babau, p. 57"
+        elif monsterrand == 2:
+            return "CR 6 Wood Golem, p. 164"
+        elif monsterrand == 3:
+            return "CR 6 Half-Fiend Minotaur, p. 171"
+        elif monsterrand == 4:
+            return "CR 6 Lamia, p. 186"
+        elif monsterrand == 5:
+            return "CR 6 Salamander, p. 240"
+        elif monsterrand == 6:
+            return "CR 6 Xill, p. 283"
+        elif monsterrand == 7:
+            return "CR 6 Xorn, p. 284"
+        elif monsterrand == 8:
+            return "CR 6 Drow Noble + 4 Drow, p. 114"
+        elif monsterrand == 9:
+            return "CR 6 Ogre (3), p. 220"
+        elif monsterrand == 10:
+            return "CR 6 Kobolds (8), p. 183"
+        else:
+            return "CR 1/4 Kobold, p.183"        
+        
     elif temprand == 7:
-        return "Level 7 monster"
+        #return "Level 7 monster"
+        monsterrand = random.randint(1, 10)
+        if monsterrand == 1:
+            return "CR 7 Black Pudding, p. 35"
+        elif monsterrand == 2:
+            return "CR 7 Demon, Shadow, p. 67"
+        elif monsterrand == 3:
+            return "CR 7 Black Dragon, young, p. 92"
+        elif monsterrand == 4:
+            return "CR 7 Drider, p. 113"
+        elif monsterrand == 5:
+            return "CR 7 Huge Earth Elemental, p. 122"
+        elif monsterrand == 6:
+            return "CR 7 Ghost, p. 144"
+        elif monsterrand == 7:
+            return "CR 7 Flesh Golem, p. 160"
+        elif monsterrand == 8:
+            return "CR 7 Spectre, p. 256"
+        elif monsterrand == 9:
+            return "CR 7 Ochre Jelly (3), p. 218"
+        elif monsterrand == 10:
+            return "CR 7 Kobolds (12), p. 183"
+        else:
+            return "CR 1/4 Kobold, p.183"            
+        
     elif temprand == 8:
-        return "Level 8 monster"
+        #return "Level 8 monster"
+        monsterrand = random.randint(1, 9)
+        if monsterrand == 1:
+            return "CR 8 Demon, Mabasu, p. 64"
+        elif monsterrand == 2:
+            return "CR 8 Intellect Devourer, p. 180"
+        elif monsterrand == 3:
+            return "CR 8 Green Dragon, young, p. 96"
+        elif monsterrand == 4:
+            return "CR 8 Mohrg, p. 180"
+        elif monsterrand == 5:
+            return "CR 8 Dark Naga, p. 211"
+        elif monsterrand == 6:
+            return "CR 8 Oni, Ogre Mage, p. 221"
+        elif monsterrand == 7:
+            return "CR 8 Greater Shadow, p. 245"
+        elif monsterrand == 8:
+            return "CR 8 Drow Noble + 8 Drow, p. 114"
+        elif monsterrand == 9:
+            return "CR 8 Kobolds (16), p. 183"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 9:
-        return "Level 9 monster"
+        #return "Level 9 monster"
+        monsterrand = random.randint(1, 8)
+        if monsterrand == 1:
+            return "CR 9 Demon, Urock, p. 67"
+        elif monsterrand == 2:
+            return "CR 9 Greater Earth Elemental, p. 123"
+        elif monsterrand == 3:
+            return "CR 9 Nessian Hell Hound, p. 173"
+        elif monsterrand == 4:
+            return "CR 9 Spirit Naga, p. 213"
+        elif monsterrand == 5:
+            return "CR 9 Vampire, p. 270"
+        elif monsterrand == 6:
+            return "CR 9 Black Pudding (2), p. 35"
+        elif monsterrand == 7:
+            return "CR 9 Drider (2), p. 113"
+        elif monsterrand == 8:
+            return "CR 9 Flesh Golem (2), p. 160"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 10:
-        return "Level 10 monster"
+        #return "Level 10 monster"
+        monsterrand = random.randint(1, 6)
+        if monsterrand == 1:
+            return "CR 10 Bebilith, p. 32"
+        elif monsterrand == 2:
+            return "CR 10 Devourer, p. 82"
+        elif monsterrand == 3:
+            return "CR 10 Red Dragon, young, p. 98"
+        elif monsterrand == 4:
+            return "CR 10 Clay Golem, p. 159"
+        elif monsterrand == 5:
+            return "CR 10 Greater Shadow (2), p. 245"
+        elif monsterrand == 6:
+            return "CR 10 Black Pudding (3), p. 35"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 11:
-        return "Level 11 monster"
+        #return "Level 11 monster"
+        monsterrand = random.randint(1, 5)
+        if monsterrand == 1:
+            return "CR 11 Black Dragon, adult, p. 82"
+        elif monsterrand == 2:
+            return "CR 11 Elder Earth Elemental, p. 123"
+        elif monsterrand == 3:
+            return "CR 11 Stone Golem, p. 163"
+        elif monsterrand == 4:
+            return "CR 11 Retriever, p. 234"
+        elif monsterrand == 5:
+            return "CR 11 Vampire (2), p. 270"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 12:
-        return "Level 12 monster"
+        #return "Level 12 monster"
+        monsterrand = random.randint(1, 6)
+        if monsterrand == 1:
+            return "CR 12 Green Dragon, adult, p. 96"
+        elif monsterrand == 2:
+            return "CR 12 Lich, p. 188"
+        elif monsterrand == 3:
+            return "CR 12 Purple Worm, p. 230"
+        elif monsterrand == 4:
+            return "CR 12 Clay Golem (2), p. 159"
+        elif monsterrand == 5:
+            return "CR 12 Bebilith (2), p. 32"
+        elif monsterrand == 6:
+            return "CR 12 Roper, p. 237"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 13:
-        return "Level 13 monster"
+        #return "Level 13 monster"
+        monsterrand = random.randint(1, 5)
+        if monsterrand == 1:
+            return "CR 13 Demon, Glabrezu, p. 61"
+        elif monsterrand == 2:
+            return "CR 13 Elder Earth Elemental (2), p. 123"
+        elif monsterrand == 3:
+            return "CR 13 Stone Golem (2), p. 163"
+        elif monsterrand == 4:
+            return "CR 13 Iron Golem, p. 162"
+        elif monsterrand == 5:
+            return "CR 13 Regriever (2), p. 234"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 14:
-        return "Level 14 monster"
+        #return "Level 14 monster"
+        monsterrand = random.randint(1, 5)
+        if monsterrand == 1:
+            return "CR 14 Demon, Nalfeshnee, p. 65"
+        elif monsterrand == 2:
+            return "CR 14 Red Dragon, adult, p. 98"
+        elif monsterrand == 3:
+            return "CR 14 Crag Linnorm, p. 190"
+        elif monsterrand == 4:
+            return "CR 14 Lich (2) + 2 Zombies, Human, p. 188, 288"
+        elif monsterrand == 5:
+            return "CR 14 Stone Golem (3), p. 163"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 15:
-        return "Level 15 monster"
+        #return "Level 15 monster"
+        monsterrand = random.randint(1, 3)
+        if monsterrand == 1:
+            return "CR 15 Red Dragon, adult + Red Dragon, young, p. 82"
+        elif monsterrand == 2:
+            return "CR 15 Neothelid, p. 214"
+        elif monsterrand == 3:
+            return "CR 15 Iron Golem (2), p. 162"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 16:
-        return "Level 16 monster"
+        #return "Level 16 monster"
+        monsterrand = random.randint(1, 6)
+        if monsterrand == 1:
+            return "CR 16 Black Dragon, Ancient, p. 93"
+        elif monsterrand == 2:
+            return "CR 16 Iron Golem (3), p. 162"
+        elif monsterrand == 3:
+            return "CR 16 Demon, Nalfeshnee (2), p. 65"
+        elif monsterrand == 4:
+            return "CR 16 Red Dragon, adult (2), p. 98"
+        elif monsterrand == 5:
+            return "CR 16 Crag Linnorm (2), p. 190"
+        elif monsterrand == 6:
+            return "CR 16 Lich (4) + 6 Zombies, Human, p. 188, 288"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 17:
-        return "Level 17 monster"
+        #return "Level 17 monster"
+        monsterrand = random.randint(1, 3)
+        if monsterrand == 1:
+            return "CR 17 Demon, Marilith, p. 63"
+        elif monsterrand == 2:
+            return "CR 17 Green Dragon, Ancient, p. 97"
+        elif monsterrand == 3:
+            return "CR 17 Iron Golem (4), p. 162"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 18:
-        return "Level 18 monster"
+        #return "Level 18 monster"
+        monsterrand = random.randint(1, 3)
+        if monsterrand == 1:
+            return "CR 18 Neothelid (2), p. 214"
+        elif monsterrand == 2:
+            return "CR 18 Black Dragon, Ancient (2), p. 97"
+        elif monsterrand == 3:
+            return "CR 18 Iron Golem (5), p. 162"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 19:
-        return "Level 19 monster"
+        #return "Level 19 monster"
+        monsterrand = random.randint(1, 3)
+        if monsterrand == 1:
+            return "CR 19 Green Dragon, Ancient (2), p. 97"
+        elif monsterrand == 2:
+            return "CR 19 Red Dragon, Ancient, p. 99"
+        elif monsterrand == 3:
+            return "CR 19 Demon, Marilith (2), p. 63"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 20:
-        return "Level 20 monster"
+        #return "Level 20 monster"
+        monsterrand = random.randint(1, 2)
+        if monsterrand == 1:
+            return "CR 20 Demon, Balor, p. 58"
+        elif monsterrand == 2:
+            return "CR 20 Demon, Marilith (3), p. 63"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     elif temprand == 21:
-        return "Boss monster"
+        #return "Level 21 monster"
+        return "CR 25 Tarrasque"
     else:
-        return "grue"
+        return "Dread Gazebo"#it is too late.  You have angered the gazebo.
     
 class Room:
     #room_type: room, hall, stairs? grand hall? chamber?
@@ -674,7 +1098,7 @@ class levelselect:#Generate button options selection box
         self.top.destroy()
 #about button: thanks to tkMessageBox
 def aboutbox():
-    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate. \n Hover over monster tokens for monster info. \n Special thanks to Alisa Pack and James Switzer.")
+    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate. \n Hover over monster tokens for monster info. \n Special thanks to Alisa Pack, James Switzer, and Pasha Wrangell.")
 
 top = Tk()
 tehframe = Frame(top)
