@@ -1,5 +1,7 @@
 #Dungeon Generator v0.03
 # Chris Pack
+# Creates a dungeon of between 5 and 100 rooms for a party of level 1-20.
+# Based on the dungeon generator in the AD&D DMG by Gary Gygax
 #=====================================================
 from Tkinter import *
 import random
@@ -1107,7 +1109,7 @@ class levelselect:#Generate button options selection box
         self.top.destroy()
 #about button: thanks to tkMessageBox
 def aboutbox():
-    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate. \n Hover over monster tokens for monster info. \n Special thanks to Alisa Pack, James Switzer, and Pasha Wrangell.")
+    tkMessageBox.showinfo("About","DungeonGenerator for Pathfinder, by Chris Pack. \n \n Enter your party level and the number of rooms in Generate. \n Hover over monster tokens for monster info. \n Special thanks to Alisa Pack, James Switzer, and Pasha Wrangell. \n Based on an algorithm by Gary Gygax.")
 
 top = Tk()
 tehframe = Frame(top)
