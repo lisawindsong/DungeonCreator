@@ -713,7 +713,16 @@ def get_monster(cr):
         
     elif temprand == 21:
         #return "Level 21 monster"
-        return "CR 25 Tarrasque"
+        monsterrand = random.randint(1, 3)
+        if monsterrand == 1:
+            return "CR 20 Demon, Balor (2), p. 58"
+        elif monsterrand == 2:
+            return "CR 19 Red Dragon, Ancient (2), p. 99"
+        elif monsterrand == 3:
+            return "CR 25 Tarrasque"
+        else:
+            return "CR 1/4 Kobold, p.183"
+        
     else:
         return "Dread Gazebo"#it is too late.  You have angered the gazebo.
     
