@@ -6,7 +6,7 @@
 from Tkinter import *
 import random
 import tkMessageBox
-import Pmw
+from Pmw import initialise, Balloon
 
 dungeon = []
 rooms_in_dungeon = 0#so now I can add x rooms to a dungeon and then know to stop
@@ -1113,7 +1113,7 @@ def aboutbox():
 
 top = Tk()
 tehframe = Frame(top)
-Pmw.initialise(top)
+initialise(top)#Pmw: hovertext widget starter
 tehframe.pack(side = LEFT, fill = Y, expand = TRUE)
 #save picture files to variables
 stairs1 = PhotoImage(file = 'stairs1.gif')
@@ -1121,7 +1121,7 @@ monster1 = PhotoImage(file = 'monster1.gif')
 
 settingsbox = levelselect(top, generatedungeon)
 #show hover text on monsters, tooltips thanks to PythonMegaWidgets
-balloon = Pmw.Balloon(top)
+balloon = Balloon(top)#Pmw: declare the hovertext balloon
 
 generatebutton = Button(tehframe, text="Generate", command = settingsbox.prompt)
 generatebutton.pack(side = TOP)
